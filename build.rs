@@ -6,8 +6,8 @@ use std::path::PathBuf;
 use std::io::{prelude::*, Seek, SeekFrom};
 
 fn main() {
-    // Tell cargo to tell rustc to link the system bzip2
-    // shared library.
+    // Tell cargo to tell rustc to link the vJoyInterface
+    // library.
     println!("cargo:rustc-link-lib=vJoyInterface");
 
     // The bindgen::Builder is the main entry point
