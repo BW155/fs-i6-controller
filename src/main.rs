@@ -90,7 +90,9 @@ fn main() {
 
             if started && high_count > 0 && i == LOW {
                 let mut c_val = ((high_count as f64 - 116.0) / 193.0 * 100.0).round() as i64;
-                if c_val > 100 {c_val = 100;}
+                if c_val > 100 {
+                    c_val = 100;
+                }
                 if c_val - 1 != channels[channel_index] {
                     channels[channel_index] = c_val;
                 }
