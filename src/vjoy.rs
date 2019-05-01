@@ -24,9 +24,14 @@ impl VJoy {
 
     pub fn set(&self, channels: [i64; 6]) -> bool {
         unsafe {
-            let result = SetAxis((*channels.get(0).unwrap() as i32) * 327, VJOY_ID, HID_USAGE_X);
-            println!("setAxis: {}", result);
+            let r1 = SetAxis((*channels.get(0).unwrap() as i32), VJOY_ID, HID_USAGE_X) == 1;
+            let r2 = SetAxis((*channels.get(1).unwrap() as i32), VJOY_ID, HID_USAGE_Y) == 1;
+            let r3 = SetAxis((*channels.get(2).unwrap() as i32), VJOY_ID, HID_USAGE_Z) == 1;
+            let r4 = SetAxis((*channels.get(3).unwrap() as i32), VJOY_ID, HID_USAGE_RX) == 1;
+            let r5 = SetAxis((*channels.get(4).unwrap() as i32), VJOY_ID, HID_USAGE_RY) == 1;
+            let r6 = SetAxis((*channels.get(5).unwrap() as i32), VJOY_ID, HID_USAGE_RZ) == 1;
+            return r1 && r2 && r3 && r4 && r5 && r6;
         }
-        true
+        false
     }
 }
