@@ -43,7 +43,7 @@ fn main() {
                 for i in buffer.iter() {
                     let mut number = 0;
                     if number % 8 == 0 {
-                        let val = (i * 1.0).round();
+                        let val = i.round();
                         v_buff.push(val);
                     }
                     number += 1;
@@ -58,7 +58,7 @@ fn main() {
     let mut start_found = false;
     let mut low_count = 0;
     let mut high_count = 0;
-    let mut channels: [i64; 6] = [0; 6];
+    let mut channels: [u64; 6] = [0; 6];
     let mut channel_index = 0;
     let mut started = false;
 
@@ -75,7 +75,7 @@ fn main() {
         let received = rx.recv().unwrap();
 
         for i in received {
-            let val = (i * 1.0).round();
+            let val = i.round();
 
             if high_count > 1600 && i == LOW {
                 started = true;
@@ -89,7 +89,7 @@ fn main() {
             }
 
             if started && high_count > 0 && i == LOW {
-                let mut c_val = ((high_count as f64 - 116.0) / 193.0 * 100.0).round() as i64;
+                let mut c_val = ((high_count as f64 - 116.0) / 193.0 * 100.0).round() as u64;
                 if c_val > 100 {
                     c_val = 100;
                 }
@@ -99,13 +99,15 @@ fn main() {
                 channel_index += 1;
             }
 
-            if i == HIGH {
-                high_count += 1;
-                low_count = 0;
-            }
-            if i == LOW {
-                low_count += 1;
-                high_count = 0;
+            match i {
+                HIGH => {
+                    high_count += 1;
+                    low_count = 0;
+                }
+                LOW => {
+                    low_count += 1;
+                    high_count = 0;
+                }
             }
         }
         vjoy.set(channels);
